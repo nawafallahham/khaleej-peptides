@@ -1,7 +1,6 @@
 import { NextResponse } from "next/server";
 import {
   CLOAKED_LINKS,
-  cloakedUrl,
   decorateDestination,
   detectSource,
   getCloakLabel,
@@ -121,19 +120,20 @@ export async function GET(req: Request) {
   const slug = url.pathname.replace(/^\/go\//, "").replace(/\/+$/, "");
 
   const def = CLOAKED_LINKS[slug];
-  if (!def) {
-    // Unknown slug → bounce to the catalog (content-rich, safe).
-    return NextResponse.redirect(new URL("/shop", SITE), 307);
-  }
-
   const source = detectSource(url.searchParams);
-  recordClick(slug, source);
 
-  const final = decorateDestination(def.destination, url.searchParams);
+  // Known cloaked link → forward to its product. Unknown slug → still serve a
+  // clean wall that forwards to the full catalog, so nothing ever looks broken
+  // (no bare redirect, no "can't access" dead-end) and the URL stays cloaked.
+  const destination = def ? def.destination : "/shop";
+  const label = def ? getCloakLabel(slug) : "Khaleej catalog";
+
+  if (def) recordClick(slug, source);
+
+  const final = decorateDestination(destination, url.searchParams);
   const ogImage = `${SITE}/khaleej-logo.webp`;
-  const label = getCloakLabel(slug);
 
-  const html = wallHtml({ destination: def.destination, final, label, ogImage });
+  const html = wallHtml({ destination, final, label, ogImage });
   return new NextResponse(html, {
     status: 200,
     headers: {

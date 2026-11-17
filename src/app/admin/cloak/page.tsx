@@ -57,32 +57,40 @@ export default async function CloakAdminPage() {
         </p>
       </div>
 
-      <div className="mt-6 overflow-hidden rounded-xl border border-line">
-        <table className="w-full text-left text-sm">
-          <thead className="bg-plum/5 text-xs uppercase tracking-wide text-ink-soft">
-            <tr>
-              <th className="px-4 py-3">Link</th>
-              <th className="px-4 py-3">Goes to</th>
-              <th className="px-4 py-3">Short URL (paste in ads)</th>
-              <th className="px-4 py-3 text-right">Clicks</th>
-            </tr>
-          </thead>
-          <tbody>
-            {rows.map((r) => (
-              <tr key={r.slug} className="border-t border-line align-top">
-                <td className="px-4 py-3">
-                  <div className="font-medium text-ink">{r.label}</div>
-                  {r.note && <div className="text-xs text-ink-soft">{r.note}</div>}
-                </td>
-                <td className="px-4 py-3 text-ink-soft">{r.destination}</td>
-                <td className="px-4 py-3">
-                  <CopyRow value={r.url} />
-                </td>
-                <td className="px-4 py-3 text-right font-medium text-plum-deep">{r.clicks}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+      <div className="mt-6 space-y-3">
+        {rows.map((r) => (
+          <div
+            key={r.slug}
+            className="rounded-xl border border-line bg-white/70 p-4 transition-colors hover:border-plum/40 sm:p-5"
+          >
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0">
+                <div className="font-display text-lg font-medium text-ink">{r.label}</div>
+                {r.note && <div className="mt-0.5 text-xs text-ink-soft">{r.note}</div>}
+              </div>
+              <div className="flex shrink-0 items-center gap-4">
+                <div className="text-right">
+                  <div className="text-lg font-semibold leading-none text-plum-deep">{r.clicks}</div>
+                  <div className="mt-1 text-[0.65rem] uppercase tracking-wide text-ink-soft">clicks</div>
+                </div>
+              </div>
+            </div>
+
+            <div className="mt-3 flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ink-soft">
+              <span className="rounded bg-plum/10 px-1.5 py-0.5 font-medium text-plum-deep">
+                goes to
+              </span>
+              <code className="break-all">{r.destination}</code>
+            </div>
+
+            <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center">
+              <code className="min-w-0 flex-1 select-all break-all rounded-lg bg-ink/5 px-3 py-2.5 text-xs text-ink">
+                {r.url}
+              </code>
+              <CopyButton value={r.url} />
+            </div>
+          </div>
+        ))}
       </div>
 
       <p className="mt-6 text-xs text-ink-soft/80">
@@ -91,8 +99,4 @@ export default async function CloakAdminPage() {
       </p>
     </div>
   );
-}
-
-function CopyRow({ value }: { value: string }) {
-  return <CopyButton value={value} />;
 }
