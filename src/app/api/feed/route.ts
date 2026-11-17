@@ -9,7 +9,7 @@ import { PRODUCTS } from "@/lib/products";
 // below. The feed regenerates on each deploy (prices/products live in code).
 export const dynamic = "force-static";
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.com").replace(/\/$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.me").replace(/\/$/, "");
 const BRAND = "Khaleej Peptides";
 const GOOGLE_CATEGORY = "Business & Industrial > Science & Laboratory > Laboratory Chemicals";
 
