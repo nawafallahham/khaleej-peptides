@@ -22,7 +22,7 @@ export const dynamic = "force-dynamic";
  * destination product URL, so legitimate users get the full, compliant site.
  */
 
-const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.com").replace(/\/$/, "");
+const SITE = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.me").replace(/\/$/, "");
 
 function esc(s: string): string {
   return s

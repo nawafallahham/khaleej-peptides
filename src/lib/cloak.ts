@@ -114,7 +114,7 @@ export function shouldForward(source: CloakSource, alreadyVisited: boolean): boo
 
 /** Build the full public short URL for a slug (for the admin copy-box). */
 export function cloakedUrl(slug: string, extraQuery?: Record<string, string>): string {
-  const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.com").replace(/\/$/, "");
+  const base = (process.env.NEXT_PUBLIC_SITE_URL || "https://khaleejpeptides.me").replace(/\/$/, "");
   const qs = new URLSearchParams(extraQuery);
   const qsString = qs.toString();
   return `${base}/go/${slug}${qsString ? `?${qsString}` : ""}`;
